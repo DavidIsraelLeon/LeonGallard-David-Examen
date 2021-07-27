@@ -100,7 +100,7 @@ public class crear {
     @Path("/crearrestaurante")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
-	public Response crearreserva(@FormParam("nombre") String nombre, @FormParam("direccion") String direccion
+	public Response crearrestaurante(@FormParam("nombre") String nombre, @FormParam("direccion") String direccion
 	    		, @FormParam("telefono") String telefono, @FormParam("aforo") Integer aforo){
 			
 		System.out.println(nombre);

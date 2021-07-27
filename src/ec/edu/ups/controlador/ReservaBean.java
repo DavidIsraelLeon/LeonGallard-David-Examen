@@ -19,7 +19,7 @@ import ec.edu.ups.ejb.ReservaFacade;
 import ec.edu.ups.ejb.RestauranteFacade;
 import ec.edu.ups.entidades.Cliente;
 import ec.edu.ups.entidades.Reserva;
-import ec.edu.ups.entidades.Restuarante;
+import ec.edu.ups.entidades.Restaurante;
 
 @FacesConfig(version = FacesConfig.Version.JSF_2_3)
 @Named
@@ -41,12 +41,11 @@ public class ReservaBean implements Serializable{
     private String telefono;
     private String cedula;
     private String correo;
-    private String password;
     private Cliente cliente; 
     
     
     private String nombreRestaurante;
-    private Restuarante restaurante;
+    private Restaurante restaurante;
     private String direccionRestuarante;
 	private String telefonoRestuarante;
 	private int aforo;
@@ -96,7 +95,7 @@ public class ReservaBean implements Serializable{
 		 
 		System.out.println("Si llega");
 		 
-		Restuarante resturante = null;
+		Restaurante resturante = null;
 		Cliente cliente = null;
 		Reserva reserva = null;
 		
@@ -193,13 +192,6 @@ public class ReservaBean implements Serializable{
 		this.correo = correo;
 	}
 
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
 
 	public Cliente getCliente() {
 		return cliente;

@@ -38,13 +38,13 @@ public class Reserva implements Serializable {
 	
 	@ManyToOne
 	@JoinColumn
-	private Restuarante restauranteReserva;
+	private Restaurante restauranteReserva;
 	
 	public Reserva() {
 		super();
 	}
 
-	public Reserva(int id, Calendar fecha, int numeroPersonas, Cliente clienteReserva, Restuarante restauranteReserva) {
+	public Reserva(int id, Calendar fecha, int numeroPersonas, Cliente clienteReserva, Restaurante restauranteReserva) {
 		super();
 		this.id = id;
 		this.fecha = fecha;
@@ -53,7 +53,7 @@ public class Reserva implements Serializable {
 		this.restauranteReserva = restauranteReserva;
 	}
 	
-	public Reserva(int id, Calendar fecha, int numeroPersonas, Restuarante restauranteReserva) {
+	public Reserva(int id, Calendar fecha, int numeroPersonas, Restaurante restauranteReserva) {
 		super();
 		this.id = id;
 		this.fecha = fecha;
@@ -69,7 +69,7 @@ public class Reserva implements Serializable {
 		this.clienteReserva = clienteReserva;
 	}
 
-	public Reserva(Calendar fecha, int numeroPersonas, Cliente clienteReserva, Restuarante restauranteReserva) {
+	public Reserva(Calendar fecha, int numeroPersonas, Cliente clienteReserva, Restaurante restauranteReserva) {
 		super();
 		this.fecha = fecha;
 		this.numeroPersonas = numeroPersonas;
@@ -109,11 +109,11 @@ public class Reserva implements Serializable {
 		this.clienteReserva = clienteReserva;
 	}
 
-	public Restuarante getRestauranteReserva() {
+	public Restaurante getRestauranteReserva() {
 		return restauranteReserva;
 	}
 
-	public void setRestauranteReserva(Restuarante restauranteReserva) {
+	public void setRestauranteReserva(Restaurante restauranteReserva) {
 		this.restauranteReserva = restauranteReserva;
 	}
 

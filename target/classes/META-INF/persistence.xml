@@ -5,7 +5,7 @@
 	<jta-data-source>jdbc/__ejemplo</jta-data-source>
 	<class>ec.edu.ups.entidades.Cliente</class>
 		<class>ec.edu.ups.entidades.Reserva</class>
-		<class>ec.edu.ups.entidades.Restuarante</class>
+		<class>ec.edu.ups.entidades.Restaurante</class>
 		<properties>
 			<property
 				name="javax.persistence.schema-generation.database.action"

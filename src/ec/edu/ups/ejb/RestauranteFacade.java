@@ -6,19 +6,19 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import ec.edu.ups.entidades.Cliente;
-import ec.edu.ups.entidades.Restuarante;
+import ec.edu.ups.entidades.Restaurante;
 
 /**
  * Session Bean implementation class RestauranteFacade
  */
 @Stateless
-public class RestauranteFacade extends AbstractFacade<Restuarante>{
+public class RestauranteFacade extends AbstractFacade<Restaurante>{
 
-	@PersistenceContext(unitName = "CordovaArevalo-Juan-Examen")
+	@PersistenceContext(unitName = "LeonGallard-David-Examen")
 	private EntityManager em;
 	
     public RestauranteFacade() {
-    	super(Restuarante.class);
+    	super(Restaurante.class);
     }
 
 	@Override
@@ -27,13 +27,13 @@ public class RestauranteFacade extends AbstractFacade<Restuarante>{
 		return em;
 	}
 	
-	public Restuarante buscarPorNombre(String nombre) {
+	public Restaurante buscarPorNombre(String nombre) {
 		
 		System.out.println("Nombre: "+nombre);
-    	Restuarante restaurante=null;
-    	String consulta = "Select c From Restuarante c Where c.nombre=:nombre";
+		Restaurante restaurante=null;
+    	String consulta = "Select c From Restaurante c Where c.nombre=:nombre";
     	try {
-    		restaurante= (Restuarante) em.createQuery(consulta).setParameter("nombre", nombre).getSingleResult();
+    		restaurante= (Restaurante) em.createQuery(consulta).setParameter("nombre", nombre).getSingleResult();
     	}catch(Exception e) {
     		System.out.println(">>>Warning (buscarPorCedula: )"+e.getMessage());
     	}

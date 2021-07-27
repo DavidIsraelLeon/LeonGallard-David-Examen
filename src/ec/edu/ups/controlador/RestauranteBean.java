@@ -10,7 +10,7 @@ import javax.inject.Named;
 import ec.edu.ups.ejb.ReservaFacade;
 import ec.edu.ups.ejb.RestauranteFacade;
 import ec.edu.ups.entidades.Cliente;
-import ec.edu.ups.entidades.Restuarante;
+import ec.edu.ups.entidades.Restaurante;
 
 @FacesConfig(version = FacesConfig.Version.JSF_2_3)
 @Named
@@ -37,7 +37,7 @@ public class RestauranteBean implements Serializable{
 	public void agregarResturante() {
 		
     	if(nombre!=null && nombre.equals("")!=true) {
-    		Restuarante r = new Restuarante(nombre, direccion, telefono, aforo);
+    		Restaurante r = new Restaurante(nombre, direccion, telefono, aforo);
     		ejbRestaurante.create(r);
         	nombre="";      	
         	direccion="";

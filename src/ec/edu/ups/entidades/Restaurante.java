@@ -12,7 +12,7 @@ import javax.persistence.*;
  */
 @Entity
 
-public class Restuarante implements Serializable {
+public class Restaurante implements Serializable {
 
 	
 	private static final long serialVersionUID = 1L;
@@ -37,12 +37,12 @@ public class Restuarante implements Serializable {
     private List<Reserva> reservasRestaurante= new ArrayList<Reserva>();
 	
 	
-	public Restuarante() {
+	public Restaurante() {
 		super();
 	}
 
 
-	public Restuarante(int id, String nombre, String direccion, String telefono, int aforo) {
+	public Restaurante(int id, String nombre, String direccion, String telefono, int aforo) {
 		super();
 		this.id = id;
 		this.nombre = nombre;
@@ -52,7 +52,7 @@ public class Restuarante implements Serializable {
 	}
 
 
-	public Restuarante(String nombre, String direccion, String telefono, int aforo) {
+	public Restaurante(String nombre, String direccion, String telefono, int aforo) {
 		super();
 		this.nombre = nombre;
 		this.direccion = direccion;
@@ -143,7 +143,7 @@ public class Restuarante implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Restuarante other = (Restuarante) obj;
+		Restaurante other = (Restaurante) obj;
 		if (aforo != other.aforo)
 			return false;
 		if (direccion == null) {

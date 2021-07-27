@@ -1,5 +1,9 @@
 package ec.edu.ups.ejb;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.ejb.LocalBean;
 
 import javax.ejb.Stateless;
@@ -15,7 +19,7 @@ import ec.edu.ups.entidades.Cliente;
 @Stateless
 public class ClienteFacade extends AbstractFacade<Cliente>{
 
-	@PersistenceContext(unitName = "CordovaArevalo-Juan-Examen")
+	@PersistenceContext(unitName = "LeonGallard-David-Examen")
 	private EntityManager em;
 
     public ClienteFacade() {
@@ -40,5 +44,18 @@ public class ClienteFacade extends AbstractFacade<Cliente>{
     	}
     	return persona;
     }
+	
+	public List<Cliente> listClientes(String cedula)throws SQLException{
+		List<Cliente> lista = new ArrayList<Cliente>();
+    	String consulta = "Select c From Cliente c Where c.cedula=:cedula";
+    	
+    	lista=em.createQuery(consulta,Cliente.class).setParameter("cedula", cedula).getResultList();
+    	
+    	
+    	return lista;
+		
+	}
+	
+	
 
 }

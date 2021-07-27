@@ -6,6 +6,7 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.json.bind.Jsonb;
 import javax.json.bind.JsonbBuilder;
+import javax.persistence.ForeignKey;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -23,7 +24,7 @@ import ec.edu.ups.ejb.ReservaFacade;
 import ec.edu.ups.ejb.RestauranteFacade;
 import ec.edu.ups.entidades.Cliente;
 import ec.edu.ups.entidades.Reserva;
-import ec.edu.ups.entidades.Restuarante;
+import ec.edu.ups.entidades.Restaurante;
 
 @Path("/reservas/")
 public class reservas {
@@ -74,7 +75,7 @@ public class reservas {
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     public Response listarRest(@FormParam("nombre") String nombre) {
 	
-    	Restuarante restuarante = ejbResturante.buscarPorNombre(nombre);
+    	Restaurante restuarante = ejbResturante.buscarPorNombre(nombre);
     	
     	List<Reserva> pedido = new ArrayList<Reserva>();
     	
@@ -82,7 +83,7 @@ public class reservas {
     	
     	for (Reserva pedidoCabecera : restuarante.getReservasRestaurante()) {
     		
-    		Restuarante res = new Restuarante(pedidoCabecera.getRestauranteReserva().getId(), pedidoCabecera.getRestauranteReserva().getNombre(), 
+    		Restaurante res = new Restaurante(pedidoCabecera.getRestauranteReserva().getId(), pedidoCabecera.getRestauranteReserva().getNombre(), 
     				pedidoCabecera.getRestauranteReserva().getDireccion(), pedidoCabecera.getRestauranteReserva().getTelefono(), 
     				pedidoCabecera.getRestauranteReserva().getAforo());
     		Reserva r = new Reserva(pedidoCabecera.getId(), pedidoCabecera.getFecha(), pedidoCabecera.getNumeroPersonas(), res);
@@ -97,5 +98,36 @@ public class reservas {
     		.header("Access-Control-Allow-Headers", "origin, content-type, accept, authorization")
     		.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE").build();
     }
+    
+   /* @POST
+    @Path("/CrearReserva")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    public Response CrearReserva(@FormParam("numeropersonas") Integer numeropersonas, @FormParam("ClienteReserva") Integer cliente,@FormParam("RestauranteReserva") Integer restaurante) {
+	
+    	//Restaurante restuarante = ejbResturante.buscarPorNombre(nombre);
+    	
+    	
+    	List<Reserva> pedido = new ArrayList<Reserva>();
+    	
+    	
+    	
+    	for (Reserva pedidoCabecera : restuarante.getReservasRestaurante()) {
+    		
+    		Restaurante res = new Restaurante(pedidoCabecera.getRestauranteReserva().getId(), pedidoCabecera.getRestauranteReserva().getNombre(), 
+    				pedidoCabecera.getRestauranteReserva().getDireccion(), pedidoCabecera.getRestauranteReserva().getTelefono(), 
+    				pedidoCabecera.getRestauranteReserva().getAforo());
+    		Reserva r = new Reserva(pedidoCabecera.getId(), pedidoCabecera.getFecha(), pedidoCabecera.getNumeroPersonas(), res);
+			
+			pedido.add(r);
+		}
+    	
+    	
+    	Jsonb jsonb = JsonbBuilder.create();
+    	return Response.status(201).entity(jsonb.toJson(pedido))
+    		.header("Access-Control-Allow-Origin", "*")
+    		.header("Access-Control-Allow-Headers", "origin, content-type, accept, authorization")
+    		.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE").build();
+    }*/
 
 }

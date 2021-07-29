@@ -59,6 +59,10 @@ public class Restaurante implements Serializable {
 		this.telefono = telefono;
 		this.aforo = aforo;
 	}
+	public Restaurante(String nombre) {
+		super();
+		this.nombre=nombre;
+	}
 
 
 	public int getId() {

@@ -29,13 +29,13 @@ public class RestauranteFacade extends AbstractFacade<Restaurante>{
 	
 	public Restaurante buscarPorNombre(String nombre) {
 		
-		System.out.println("Nombre: "+nombre);
+		System.out.println("Nombre restaurante: "+nombre);
 		Restaurante restaurante=null;
     	String consulta = "Select c From Restaurante c Where c.nombre=:nombre";
     	try {
     		restaurante= (Restaurante) em.createQuery(consulta).setParameter("nombre", nombre).getSingleResult();
     	}catch(Exception e) {
-    		System.out.println(">>>Warning (buscarPorCedula: )"+e.getMessage());
+    		System.out.println(">>>Warning (buscarPorNombrerestaurante: )"+e.getMessage());
     	}
     	return restaurante;
     }

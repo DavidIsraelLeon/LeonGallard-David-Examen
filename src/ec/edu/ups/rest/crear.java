@@ -1,6 +1,12 @@
 package ec.edu.ups.rest;
 
 import java.io.IOException;
+import java.util.Date;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
+import java.util.Locale;
 
 import javax.ejb.EJB;
 import javax.json.bind.Jsonb;
@@ -17,6 +23,7 @@ import ec.edu.ups.ejb.ClienteFacade;
 import ec.edu.ups.ejb.ReservaFacade;
 import ec.edu.ups.ejb.RestauranteFacade;
 import ec.edu.ups.entidades.Cliente;
+import ec.edu.ups.entidades.Reserva;
 import ec.edu.ups.entidades.Restaurante;
 
 @Path("/crear/")
@@ -125,5 +132,77 @@ public class crear {
     	}
     	return Response.ok("restaurante response").build();
     }
+	
+	@POST
+    @Path("/creareserva")
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Produces(MediaType.APPLICATION_JSON)
+	public Response creareserva(@FormParam("nombre") String nombreRestaurante,@FormParam("cedula") String cedula,
+			@FormParam("numeroPersonas") Integer numeroPersonas, @FormParam("fechaIngreso")String fechaIngreso){
+		
+		System.out.println("Si llega a crear reserva");
+		 
+		//Restaurante resturante = null;
+		//Cliente cliente = null;
+		//Reserva reserva = null;
+        Jsonb jsonb = JsonbBuilder.create();
+			Restaurante restaurante = ejbResturante.buscarPorNombre(cedula);
+			Cliente cliente = ejbCliente.buscarPorCedula(nombreRestaurante);
+			//System.out.println("NO se encontro lo necesario");
+			System.out.println(cliente);
+			System.out.println(restaurante);
+		
+		if (cliente != null && restaurante != null) {
+			
+			System.out.println(cliente);
+			System.out.println(restaurante);
+			
+			int capacidad = restaurante.getAforo() - numeroPersonas;
+			
+			if (capacidad > 1) {
+				
+				System.out.println("Hasta aqui"+fechaIngreso);
+				
+				//SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+				 //Date dataFormateada = formato.parse(fechaIngreso); 
+				
+				//DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy"); 
+				//LocalDate fecha = LocalDate.parse(fechaIngreso, formato); 
+				//System.out.println(fecha);
+				
+				Calendar cal = Calendar.getInstance();
+				SimpleDateFormat formato =  new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH);
+				
+				//cal.setTime(formato.p
+				
+				//SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+				//Date date = sdf.parse(fechaIngreso);
+				//Calendar cal = Calendar.getInstance();
+				//cal.setTime(date);
+				
+				restaurante.setAforo(capacidad);
+				ejbResturante.edit(restaurante);
+				
+				
+				Reserva reserva = new Reserva(cal, numeroPersonas, cliente,restaurante );
+				
+				ejbReserva.create(reserva);
+				return Response.ok(jsonb.toJson(reserva)).
+                		header("Access-Control-Allow-Origin", "*")
+    					.header("Access-Control-Allow-Headers", "origin, content-type, accept, authorization")
+    					.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE").build();
+				
+			}else {
+                return Response.status(500).entity("No hay suficiente espacio en este restaurante " ).build();
 
+			}
+			
+		}else {
+			
+	    	return Response.ok("No hay cliente ni restaurante").build();
+	    	
+
+
+	}
+	}
 }

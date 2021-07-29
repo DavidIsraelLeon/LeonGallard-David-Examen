@@ -14,6 +14,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -34,14 +35,14 @@ public class reservas {
 	@EJB
 	private ReservaFacade ejbReserva;
 	@EJB
-	private RestauranteFacade ejbResturante;
+	private RestauranteFacade ejbRestaurante;
 	
 	
     public reservas() {
         // TODO Auto-generated constructor stub
     }
 
-    @POST
+    /*@POST
     @Path("/listarCliente")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
@@ -68,20 +69,20 @@ public class reservas {
     		.header("Access-Control-Allow-Headers", "origin, content-type, accept, authorization")
     		.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE").build();
     }
-    
+    */
     @POST
     @Path("/listarRest")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     public Response listarRest(@FormParam("nombre") String nombre) {
 	
-    	Restaurante restuarante = ejbResturante.buscarPorNombre(nombre);
+    	Restaurante restaurante = ejbRestaurante.buscarPorNombre(nombre);
     	
     	List<Reserva> pedido = new ArrayList<Reserva>();
     	
     	
     	
-    	for (Reserva pedidoCabecera : restuarante.getReservasRestaurante()) {
+    	for (Reserva pedidoCabecera : restaurante.getReservasRestaurante()) {
     		
     		Restaurante res = new Restaurante(pedidoCabecera.getRestauranteReserva().getId(), pedidoCabecera.getRestauranteReserva().getNombre(), 
     				pedidoCabecera.getRestauranteReserva().getDireccion(), pedidoCabecera.getRestauranteReserva().getTelefono(), 
@@ -129,5 +130,35 @@ public class reservas {
     		.header("Access-Control-Allow-Headers", "origin, content-type, accept, authorization")
     		.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE").build();
     }*/
+    
+    @GET
+    @Path("/listarCliente")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response listarCliente(@QueryParam("cedula") String cedula) {
+    	System.out.println(cedula);
+
+    	Cliente cliente = ejbCliente.buscarPorCedula(cedula);
+    	
+    	List<Reserva> pedido = new ArrayList<Reserva>();
+    	Restaurante rest= new Restaurante();
+    	
+
+    	for (Reserva pedidoCabecera : cliente.getReservasCliente()) {
+    		
+    		Cliente p = new Cliente(cliente.getId(), cliente.getCedula(), cliente.getNombre(), cliente.getApellido(), cliente.getTelefono(), cliente.getDireccion(), cliente.getCorreo());
+    		Restaurante res = new Restaurante(rest.getNombre());
+			Reserva r = new Reserva(pedidoCabecera.getId(), pedidoCabecera.getFecha(), pedidoCabecera.getNumeroPersonas(), p,res);
+			
+			pedido.add(r);
+		}
+    	
+    	
+    	Jsonb jsonb = JsonbBuilder.create();
+    	return Response.status(201).entity(jsonb.toJson(pedido))
+    		.header("Access-Control-Allow-Origin", "*")
+    		.header("Access-Control-Allow-Headers", "origin, content-type, accept, authorization")
+    		.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE").build();
+    	
+    }
 
 }

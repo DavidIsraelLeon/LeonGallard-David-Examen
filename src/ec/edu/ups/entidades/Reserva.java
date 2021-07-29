@@ -76,6 +76,7 @@ public class Reserva implements Serializable {
 		this.clienteReserva = clienteReserva;
 		this.restauranteReserva = restauranteReserva;
 	}
+	
 
 	public int getId() {
 		return id;

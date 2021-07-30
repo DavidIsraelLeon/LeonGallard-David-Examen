@@ -24,11 +24,7 @@ public class Reserva implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
-	/*
-	  	e. Luego, debe ingresar el número de personas, la fecha y la hora de la reserva.
-	 
-	 */
-	private Calendar fecha;
+	private Date fecha;
 	private int numeroPersonas;
 	
 	
@@ -44,7 +40,7 @@ public class Reserva implements Serializable {
 		super();
 	}
 
-	public Reserva(int id, Calendar fecha, int numeroPersonas, Cliente clienteReserva, Restaurante restauranteReserva) {
+	public Reserva(int id, Date fecha, int numeroPersonas, Cliente clienteReserva, Restaurante restauranteReserva) {
 		super();
 		this.id = id;
 		this.fecha = fecha;
@@ -53,7 +49,7 @@ public class Reserva implements Serializable {
 		this.restauranteReserva = restauranteReserva;
 	}
 	
-	public Reserva(int id, Calendar fecha, int numeroPersonas, Restaurante restauranteReserva) {
+	public Reserva(int id, Date fecha, int numeroPersonas, Restaurante restauranteReserva) {
 		super();
 		this.id = id;
 		this.fecha = fecha;
@@ -61,7 +57,7 @@ public class Reserva implements Serializable {
 		this.restauranteReserva = restauranteReserva;
 	}
 	
-	public Reserva(int id, Calendar fecha, int numeroPersonas, Cliente clienteReserva) {
+	public Reserva(int id, Date fecha, int numeroPersonas, Cliente clienteReserva) {
 		super();
 		this.id = id;
 		this.fecha = fecha;
@@ -69,7 +65,7 @@ public class Reserva implements Serializable {
 		this.clienteReserva = clienteReserva;
 	}
 
-	public Reserva(Calendar fecha, int numeroPersonas, Cliente clienteReserva, Restaurante restauranteReserva) {
+	public Reserva(Date fecha, int numeroPersonas, Cliente clienteReserva, Restaurante restauranteReserva) {
 		super();
 		this.fecha = fecha;
 		this.numeroPersonas = numeroPersonas;
@@ -86,11 +82,11 @@ public class Reserva implements Serializable {
 		this.id = id;
 	}
 
-	public Calendar getFecha() {
+	public Date getFecha() {
 		return fecha;
 	}
 
-	public void setFecha(Calendar fecha) {
+	public void setFecha(Date fecha) {
 		this.fecha = fecha;
 	}
 

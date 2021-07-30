@@ -32,22 +32,6 @@ public class RestauranteBean implements Serializable{
 	public RestauranteBean() {
 		
 	}
-	
-	
-	public void agregarResturante() {
-		
-    	if(nombre!=null && nombre.equals("")!=true) {
-    		Restaurante r = new Restaurante(nombre, direccion, telefono, aforo);
-    		ejbRestaurante.create(r);
-        	nombre="";      	
-        	direccion="";
-        	telefono="";
-        	aforo=0;
-    	}
-    	
-    	
-    		
-    }
 
 
 	public String getNombre() {

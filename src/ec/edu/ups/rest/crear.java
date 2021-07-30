@@ -40,41 +40,18 @@ public class crear {
 		// TODO Auto-generated constructor stub
 	}
 	
-	/*@POST
-    @Path("/registrar")
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    @Produces(MediaType.TEXT_PLAIN)
-    public Response registrar(@FormParam("cedula") String cedula, @FormParam("nombre") String nombre, @FormParam("apellido") String apellido
-    		, @FormParam("telefono") String telefono, @FormParam("direccion") String direccion, @FormParam("correo")String correo){
-		
-		Cliente cliente = ejbCliente.buscarPorCedula(cedula);
-		System.out.println(cedula);
-        Jsonb jsonb = JsonbBuilder.create();
-
-        if(cliente != null){
-        	System.out.println("Usuario Ya esta creado en la base intente con otro");
-        	
-        }else{
-        	String ok ="Se hizo bien";
-        	
-        	cliente.setCedula(cedula);
-        	cliente.setNombre(nombre);
-        	cliente.setApellido(apellido);
-        	cliente.setTelefono(telefono);
-        	cliente.setDireccion(direccion);
-        	cliente.setCorreo(correo);
-			ejbCliente.create(cliente);
-            //personaFacade.edit(persona);
-            return Response.ok(jsonb.toJson(ok)).
-            		header("Access-Control-Allow-Origin", "*")
-					.header("Access-Control-Allow-Headers", "origin, content-type, accept, authorization")
-					.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE").build();
- 
-        }
-        return Response.status(404).entity("Usuario no creado").build();
-
-    }*/
 	
+	/**
+	 * Registro de un cliente
+	 * 
+	 * @param cedula
+	 * @param nombre
+	 * @param apellido
+	 * @param telefono
+	 * @param direccion
+	 * @param correo
+	 * @return
+	 */
 	@POST
     @Path("/registro")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
@@ -102,6 +79,16 @@ public class crear {
     	}
     	return Response.ok("Usuario creado").build();
     }
+	
+	/**
+	 * Registro de un restaurante
+	 * 
+	 * @param nombre
+	 * @param direccion
+	 * @param telefono
+	 * @param aforo
+	 * @return
+	 */
 	
 	@POST
     @Path("/crearrestaurante")
@@ -133,6 +120,16 @@ public class crear {
     	return Response.ok("restaurante response").build();
     }
 	
+	
+	/**
+	 * Creacion de una reserva
+	 * 
+	 * @param nombreRestaurante
+	 * @param cedula
+	 * @param numeroPersonas
+	 * @param fechaIngreso
+	 * @return
+	 */
 	@POST
     @Path("/creareserva")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
@@ -140,15 +137,24 @@ public class crear {
 	public Response creareserva(@FormParam("nombre") String nombreRestaurante,@FormParam("cedula") String cedula,
 			@FormParam("numeroPersonas") Integer numeroPersonas, @FormParam("fechaIngreso")String fechaIngreso){
 		
-		System.out.println("Si llega a crear reserva");
+		System.out.println("Si llega a aqui aa crear reserva");
 		 
 		//Restaurante resturante = null;
 		//Cliente cliente = null;
 		//Reserva reserva = null;
         Jsonb jsonb = JsonbBuilder.create();
-			Restaurante restaurante = ejbResturante.buscarPorNombre(cedula);
-			Cliente cliente = ejbCliente.buscarPorCedula(nombreRestaurante);
-			//System.out.println("NO se encontro lo necesario");
+        
+        	// ** ANGULAR
+        
+			//Restaurante restaurante = ejbResturante.buscarPorNombre(cedula);
+			
+			//Cliente cliente = ejbCliente.buscarPorCedula(nombreRestaurante);
+			System.out.println("NO2lo necesario");
+        
+        // JAVA
+        
+        Restaurante restaurante = ejbResturante.buscarPorNombre(nombreRestaurante);
+		Cliente cliente = ejbCliente.buscarPorCedula(cedula);
 			System.out.println(cliente);
 			System.out.println(restaurante);
 		
@@ -161,7 +167,31 @@ public class crear {
 			
 			if (capacidad > 1) {
 				
-				System.out.println("Hasta aqui"+fechaIngreso);
+				SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+		        Date fechaDate = null;
+		        
+		        try {
+		        fechaDate=formato.parse(fechaIngreso);
+				Reserva reserva = new Reserva(fechaDate, numeroPersonas, cliente,restaurante );
+				restaurante.setAforo(capacidad);
+				ejbResturante.edit(restaurante);
+				
+				
+				
+				ejbReserva.create(reserva);
+				
+				
+				return Response.ok(jsonb.toJson(reserva)).
+                		header("Access-Control-Allow-Origin", "*")
+    					.header("Access-Control-Allow-Headers", "origin, content-type, accept, authorization")
+    					.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE").build();
+
+		        
+		        }catch (Exception e) {
+					// TODO: handle exception
+			    	return Response.ok("Error crear fecha").build();
+
+				}
 				
 				//SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
 				 //Date dataFormateada = formato.parse(fechaIngreso); 
@@ -170,8 +200,8 @@ public class crear {
 				//LocalDate fecha = LocalDate.parse(fechaIngreso, formato); 
 				//System.out.println(fecha);
 				
-				Calendar cal = Calendar.getInstance();
-				SimpleDateFormat formato =  new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH);
+				//Calendar cal = Calendar.getInstance();
+				//SimpleDateFormat formato =  new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH);
 				
 				//cal.setTime(formato.p
 				
@@ -179,18 +209,7 @@ public class crear {
 				//Date date = sdf.parse(fechaIngreso);
 				//Calendar cal = Calendar.getInstance();
 				//cal.setTime(date);
-				
-				restaurante.setAforo(capacidad);
-				ejbResturante.edit(restaurante);
-				
-				
-				Reserva reserva = new Reserva(cal, numeroPersonas, cliente,restaurante );
-				
-				ejbReserva.create(reserva);
-				return Response.ok(jsonb.toJson(reserva)).
-                		header("Access-Control-Allow-Origin", "*")
-    					.header("Access-Control-Allow-Headers", "origin, content-type, accept, authorization")
-    					.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE").build();
+			
 				
 			}else {
                 return Response.status(500).entity("No hay suficiente espacio en este restaurante " ).build();

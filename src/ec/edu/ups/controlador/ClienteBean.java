@@ -32,24 +32,6 @@ public class ClienteBean implements Serializable{
 		
 	}
 	
-	public void agregarPersona() {
-		
-		
-		
-    	if(nombre!=null && nombre.equals("")!=true) {
-    		Cliente cliente= new Cliente(cedula, nombre, apellido, direccion, telefono, correo);
-    		ejbCliente.create(cliente);
-        	nombre="";
-        	apellido="";
-        	direccion="";
-        	telefono="";
-        	cedula="";
-        	correo="";
-    	}
-    	
-    	
-    		
-    }
 
 	public String getCedula() {
 		return cedula;

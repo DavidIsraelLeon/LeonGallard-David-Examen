@@ -1,5 +1,6 @@
 package ec.edu.ups.rest;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,11 +71,10 @@ public class reservas {
     		.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE").build();
     }
     */
-    @POST
+    @GET
     @Path("/listarRest")
     @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    public Response listarRest(@FormParam("nombre") String nombre) {
+    public Response listarRest(@QueryParam("nombre") String nombre) {
 	
     	Restaurante restaurante = ejbRestaurante.buscarPorNombre(nombre);
     	
@@ -100,54 +100,31 @@ public class reservas {
     		.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE").build();
     }
     
-   /* @POST
-    @Path("/CrearReserva")
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    public Response CrearReserva(@FormParam("numeropersonas") Integer numeropersonas, @FormParam("ClienteReserva") Integer cliente,@FormParam("RestauranteReserva") Integer restaurante) {
-	
-    	//Restaurante restuarante = ejbResturante.buscarPorNombre(nombre);
-    	
-    	
-    	List<Reserva> pedido = new ArrayList<Reserva>();
-    	
-    	
-    	
-    	for (Reserva pedidoCabecera : restuarante.getReservasRestaurante()) {
-    		
-    		Restaurante res = new Restaurante(pedidoCabecera.getRestauranteReserva().getId(), pedidoCabecera.getRestauranteReserva().getNombre(), 
-    				pedidoCabecera.getRestauranteReserva().getDireccion(), pedidoCabecera.getRestauranteReserva().getTelefono(), 
-    				pedidoCabecera.getRestauranteReserva().getAforo());
-    		Reserva r = new Reserva(pedidoCabecera.getId(), pedidoCabecera.getFecha(), pedidoCabecera.getNumeroPersonas(), res);
-			
-			pedido.add(r);
-		}
-    	
-    	
-    	Jsonb jsonb = JsonbBuilder.create();
-    	return Response.status(201).entity(jsonb.toJson(pedido))
-    		.header("Access-Control-Allow-Origin", "*")
-    		.header("Access-Control-Allow-Headers", "origin, content-type, accept, authorization")
-    		.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE").build();
-    }*/
+  
     
     @GET
     @Path("/listarCliente")
     @Produces(MediaType.APPLICATION_JSON)
     public Response listarCliente(@QueryParam("cedula") String cedula) {
+    	
     	System.out.println(cedula);
 
     	Cliente cliente = ejbCliente.buscarPorCedula(cedula);
-    	
+
     	List<Reserva> pedido = new ArrayList<Reserva>();
+    	
     	Restaurante rest= new Restaurante();
     	
 
-    	for (Reserva pedidoCabecera : cliente.getReservasCliente()) {
-    		
-    		Cliente p = new Cliente(cliente.getId(), cliente.getCedula(), cliente.getNombre(), cliente.getApellido(), cliente.getTelefono(), cliente.getDireccion(), cliente.getCorreo());
+    	for (Reserva reservac: cliente.getReservasCliente()) {
+    		   		
+    	Cliente p = new Cliente(cliente.getId(), cliente.getCedula(), cliente.getNombre(), cliente.getApellido(), 
+    			cliente.getTelefono(), cliente.getDireccion(), cliente.getCorreo());
+    	
+    		//Restaurante res = new Restaurante(rest.getNombre());
+    	
     		Restaurante res = new Restaurante(rest.getNombre());
-			Reserva r = new Reserva(pedidoCabecera.getId(), pedidoCabecera.getFecha(), pedidoCabecera.getNumeroPersonas(), p,res);
+			Reserva r = new Reserva(reservac.getFecha(), reservac.getNumeroPersonas(),p,res);
 			
 			pedido.add(r);
 		}
@@ -160,5 +137,45 @@ public class reservas {
     		.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE").build();
     	
     }
+    @GET
+    @Path("/listarReservCl")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response listarReservCl(@QueryParam("cedula") String cedula) {
+    	System.out.println(cedula);
+
+    	Reserva reserva = ejbReserva.buscarPorCedula(cedula);
+    	
+    	List<Reserva> reser = new ArrayList<Reserva>();
+    	
+		
+    	
+    	
+    	Jsonb jsonb = JsonbBuilder.create();
+    	return Response.status(201).entity(jsonb.toJson(reserva))
+    		.header("Access-Control-Allow-Origin", "*")
+    		.header("Access-Control-Allow-Headers", "origin, content-type, accept, authorization")
+    		.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE").build();
+    	
+    }
+    
+    @GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/list_reserva_cliente")
+	public Response listReservaCliente(@QueryParam("cedula") String cedula) {
+		List<Reserva> lista = new ArrayList<Reserva>();
+    	Jsonb jsonb = JsonbBuilder.create();
+
+		try {
+			lista = ejbReserva.listReservaCliente(cedula);
+			return Response.status(201).entity(jsonb.toJson(lista))
+		    		.header("Access-Control-Allow-Origin", "*")
+		    		.header("Access-Control-Allow-Headers", "origin, content-type, accept, authorization")
+		    		.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE").build();
+		} catch (SQLException e) {
+			System.out.println(e.getLocalizedMessage());
+			return Response.serverError().build();
+		}
+
+	}
 
 }

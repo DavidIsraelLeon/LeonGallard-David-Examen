@@ -13,12 +13,6 @@ import javax.persistence.*;
 @Entity
 
 public class Cliente implements Serializable {
-
-	/* 	Un cliente puede registrarse en la aplicación. Para lo cuál, debe ingresar
-		sus datos personales: nombres completos, cedula de identidad, correo electrónico, dirección,
-		teléfono
-		
-	 */
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

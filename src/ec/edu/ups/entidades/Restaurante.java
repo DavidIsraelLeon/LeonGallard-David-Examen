@@ -18,15 +18,7 @@ public class Restaurante implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
-
-	/*
-	  	Un restaurante puede registrarse en la aplicación. Para lo cuál,
-		debe ingresar los siguientes datos: nombre, dirección, teléfono y máximo número de aforo
-		(personas)
-	 
-	 */
-	
+	private int id;	
 	private String nombre;
 	private String direccion;
 	private String telefono;
